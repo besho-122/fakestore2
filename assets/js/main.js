@@ -53,8 +53,9 @@ const displayProducts  = async(page=1)=>{
     const result =data.products.map((product)=>{
         return `
         <div class="product">
-        <img src="${product.thumbnail}" alt="${product.description}"/>
+        <img src="${product.thumbnail}" alt="${product.description}" class="img1"/>
         <h3>${product.title}</h3>
+        <span>${product.price}</span>
     
         </div>
         `
@@ -82,6 +83,7 @@ else {
 document.querySelector(".pagination").innerHTML=paginationLink
 
 
+modal ()
 
 }
 catch(error){
@@ -116,5 +118,54 @@ const countDown =() => {
 setInterval( ()=>{
     countDown()},1000
 )
+function modal (){
+const modal =document.querySelector(".my-modal");
+const closebtn =document.querySelector(".close-btn");
+const leftbtn =document.querySelector(".left-btn");
+const rightbtn =document.querySelector(".right-btn");
+const img2 = Array.from (document.querySelectorAll(".img1"));
+let currentIndex=0;
+img2.forEach(function(img){
+img.addEventListener("click",function(e){
+modal.classList.remove('d-none');
+modal.querySelector("img").setAttribute("src",e.target.src);
+const currentImg = e.target;
+ currentIndex = img2.indexOf(currentImg);
+
+});
+});
+//close 
+closebtn.addEventListener("click",function(){
+    modal.classList.add('d-none');
+}
+);
+
+//right bt
+
+rightbtn.addEventListener("click",function(){
+    currentIndex ++; 
+    if(currentIndex===img2.length){
+        currentIndex=0;
+    }
+    const src =img2[currentIndex].src;
+  
+    modal.querySelector("img").setAttribute("src",src);
+    
+});
+
+ //left btn
+leftbtn.addEventListener("click",function(){
+  
+    currentIndex --; 
+    if(currentIndex<0){
+        currentIndex=img2.length-1;
+    }
+    const src =img2[currentIndex].src;
+    modal.querySelector("img").setAttribute("src",src);
+    
+
+});
 
 
+
+}
